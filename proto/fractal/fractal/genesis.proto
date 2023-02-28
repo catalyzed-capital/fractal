@@ -1,0 +1,12 @@
+syntax = "proto3";
+package fractal.fractal;
+
+import "gogoproto/gogo.proto";
+import "fractal/fractal/params.proto";
+
+option go_package = "fractal/x/fractal/types";
+
+// GenesisState defines the fractal module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package fractal.fractal;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "fractal/x/fractal/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+}

@@ -1,0 +1,7 @@
+syntax = "proto3";
+package fractal.fractal;
+
+option go_package = "fractal/x/fractal/types";
+
+// Msg defines the Msg service.
+service Msg {}
