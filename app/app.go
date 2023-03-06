@@ -178,6 +178,7 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		fractalmoduletypes.ModuleName:  {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -238,7 +239,8 @@ type App struct {
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper  capabilitykeeper.ScopedKeeper
 
-	FractalKeeper fractalmodulekeeper.Keeper
+	ScopedFractalKeeper capabilitykeeper.ScopedKeeper
+	FractalKeeper       fractalmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -495,14 +497,21 @@ func New(
 		govConfig,
 	)
 
+	scopedFractalKeeper := app.CapabilityKeeper.ScopeToModule(fractalmoduletypes.ModuleName)
+	app.ScopedFractalKeeper = scopedFractalKeeper
 	app.FractalKeeper = *fractalmodulekeeper.NewKeeper(
 		appCodec,
 		keys[fractalmoduletypes.StoreKey],
 		keys[fractalmoduletypes.MemStoreKey],
 		app.GetSubspace(fractalmoduletypes.ModuleName),
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		scopedFractalKeeper,
+		app.BankKeeper,
 	)
 	fractalModule := fractalmodule.NewAppModule(appCodec, app.FractalKeeper, app.AccountKeeper, app.BankKeeper)
 
+	fractalIBCModule := fractalmodule.NewIBCModule(app.FractalKeeper)
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	/**** IBC Routing ****/
@@ -514,6 +523,7 @@ func New(
 	ibcRouter := ibcporttypes.NewRouter()
 	ibcRouter.AddRoute(icahosttypes.SubModuleName, icaHostIBCModule).
 		AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
+	ibcRouter.AddRoute(fractalmoduletypes.ModuleName, fractalIBCModule)
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
 

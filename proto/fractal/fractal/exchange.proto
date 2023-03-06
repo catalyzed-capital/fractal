@@ -1,0 +1,17 @@
+syntax = "proto3";
+package fractal.fractal;
+
+option go_package = "fractal/x/fractal/types";
+
+message Exchange {
+  uint64 id = 1;
+  string finalunit = 2; 
+  string amount = 3; 
+  string startunit = 4; 
+  string unitratio = 5; 
+  string settledate = 6; 
+  string state = 7; 
+  string entity = 8; 
+  string provider = 9; 
+  
+}

@@ -1,26 +1,58 @@
 syntax = "proto3";
+
 package fractal.fractal;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "fractal/fractal/params.proto";
+import "fractal/fractal/exchange.proto";
 
 option go_package = "fractal/x/fractal/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/fractal/fractal/params";
+  
+  }
+  
+  // Queries a list of Exchange items.
+  rpc Exchange    (QueryGetExchangeRequest) returns (QueryGetExchangeResponse) {
+    option (google.api.http).get = "/fractal/fractal/exchange/{id}";
+  
+  }
+  rpc ExchangeAll (QueryAllExchangeRequest) returns (QueryAllExchangeResponse) {
+    option (google.api.http).get = "/fractal/fractal/exchange";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
 }
+
+message QueryGetExchangeRequest {
+  uint64 id = 1;
+}
+
+message QueryGetExchangeResponse {
+  Exchange Exchange = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllExchangeRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllExchangeResponse {
+  repeated Exchange                               Exchange   = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+

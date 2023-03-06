@@ -1,7 +1,53 @@
 syntax = "proto3";
+
 package fractal.fractal;
 
 option go_package = "fractal/x/fractal/types";
 
 // Msg defines the Msg service.
-service Msg {}
+service Msg {
+  rpc RequestExchange (MsgRequestExchange) returns (MsgRequestExchangeResponse);
+  rpc ApproveExchange (MsgApproveExchange) returns (MsgApproveExchangeResponse);
+  rpc SettleExchange  (MsgSettleExchange ) returns (MsgSettleExchangeResponse );
+  rpc SwapExchange    (MsgSwapExchange   ) returns (MsgSwapExchangeResponse   );
+  rpc CancelExchange  (MsgCancelExchange ) returns (MsgCancelExchangeResponse );
+}
+message MsgRequestExchange {
+  string creator    = 1;
+  string finalunit  = 2;
+  string amount     = 3;
+  string startunit  = 4;
+  string unitratio  = 5;
+  string settledate = 6;
+}
+
+message MsgRequestExchangeResponse {}
+
+message MsgApproveExchange {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgApproveExchangeResponse {}
+
+message MsgSettleExchange {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgSettleExchangeResponse {}
+
+message MsgSwapExchange {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgSwapExchangeResponse {}
+
+message MsgCancelExchange {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgCancelExchangeResponse {}
+

@@ -1,12 +1,18 @@
 syntax = "proto3";
+
 package fractal.fractal;
 
 import "gogoproto/gogo.proto";
 import "fractal/fractal/params.proto";
+import "fractal/fractal/exchange.proto";
 
 option go_package = "fractal/x/fractal/types";
 
 // GenesisState defines the fractal module's genesis state.
 message GenesisState {
-  Params params = 1 [(gogoproto.nullable) = false];
+           Params   params        = 1 [(gogoproto.nullable) = false];
+           string   port_id       = 2;
+  repeated Exchange exchangeList  = 3 [(gogoproto.nullable) = false];
+           uint64   exchangeCount = 4;
 }
+

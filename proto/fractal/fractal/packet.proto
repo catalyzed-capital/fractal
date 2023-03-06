@@ -1,0 +1,13 @@
+syntax = "proto3";
+package fractal.fractal;
+
+option go_package = "fractal/x/fractal/types";
+
+message FractalPacketData {
+    oneof packet {
+        NoData noData = 1;
+    }
+}
+
+message NoData {
+}

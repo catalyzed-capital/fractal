@@ -19,12 +19,47 @@ func TestGenesisState_Validate(t *testing.T) {
 			valid:    true,
 		},
 		{
-			desc:     "valid genesis state",
+			desc: "valid genesis state",
 			genState: &types.GenesisState{
-
+				PortId: types.PortID,
+				ExchangeList: []types.Exchange{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				ExchangeCount: 2,
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated exchange",
+			genState: &types.GenesisState{
+				ExchangeList: []types.Exchange{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid exchange count",
+			genState: &types.GenesisState{
+				ExchangeList: []types.Exchange{
+					{
+						Id: 1,
+					},
+				},
+				ExchangeCount: 0,
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	} {
