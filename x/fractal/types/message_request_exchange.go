@@ -48,7 +48,7 @@ func (msg *MsgRequestExchange) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
-	if amount.Empty() {
+	if msg.Amount == "" {
 		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount is empty")
 	}
 	settledate, err := strconv.ParseInt(msg.Settledate, 10, 64)
