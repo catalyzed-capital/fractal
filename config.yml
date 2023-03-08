@@ -5,6 +5,7 @@ accounts:
   - 20000token
   - 10000cBTC
   - 200000000stake
+  mnemonic: obvious bomb elbow report enable sketch night oblige gospel essay busy art
 - name: bob
   coins:
   - 10000token

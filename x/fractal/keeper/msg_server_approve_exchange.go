@@ -28,7 +28,7 @@ func (k msgServer) ApproveExchange(goCtx context.Context, msg *types.MsgApproveE
 	if err != nil {
 		return nil, err
 	}
-	exchange.Entity = msg.Creator
+	exchange.Provider = msg.Creator
 	exchange.State = "approved"
 	k.SetExchange(ctx, exchange)
 	return &types.MsgApproveExchangeResponse{}, nil

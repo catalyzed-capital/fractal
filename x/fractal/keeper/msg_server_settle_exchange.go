@@ -32,6 +32,7 @@ func (k msgServer) SettleExchange(goCtx context.Context, msg *types.MsgSettleExc
 	if err != nil {
 		return nil, err
 	}
+	exchange.Provider = msg.Creator
 	exchange.State = "settled"
 	k.SetExchange(ctx, exchange)
 	return &types.MsgSettleExchangeResponse{}, nil
