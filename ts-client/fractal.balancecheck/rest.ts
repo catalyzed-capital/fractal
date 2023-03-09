@@ -27,6 +27,20 @@ export interface BalancecheckQueryParamsResponse {
   params?: BalancecheckParams;
 }
 
+export interface BalancecheckQueryShowUsdcBalanceResponse {
+  usdcbalance?: BalancecheckUsdcbalance;
+}
+
+export interface BalancecheckUsdcbalance {
+  creator?: string;
+  chain?: string;
+  chainaddress?: string;
+  amount?: string;
+
+  /** @format uint64 */
+  id?: string;
+}
+
 export interface ProtobufAny {
   "@type"?: string;
 }
@@ -174,6 +188,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<BalancecheckQueryParamsResponse, RpcStatus>({
       path: `/fractal/balancecheck/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryShowUsdcBalance
+   * @summary Queries a list of ShowUsdcBalance items.
+   * @request GET:/fractal/balancecheck/show_usdc_balance/{id}
+   */
+  queryShowUsdcBalance = (id: string, params: RequestParams = {}) =>
+    this.request<BalancecheckQueryShowUsdcBalanceResponse, RpcStatus>({
+      path: `/fractal/balancecheck/show_usdc_balance/${id}`,
       method: "GET",
       format: "json",
       ...params,

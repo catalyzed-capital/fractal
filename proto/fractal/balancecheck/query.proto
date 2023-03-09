@@ -1,26 +1,45 @@
 syntax = "proto3";
+
 package fractal.balancecheck;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "fractal/balancecheck/params.proto";
+import "fractal/balancecheck/usdcbalance.proto";
 
 option go_package = "fractal/x/balancecheck/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/fractal/balancecheck/params";
+  
+  }
+  
+  // Queries a list of ShowUsdcBalance items.
+  rpc ShowUsdcBalance (QueryShowUsdcBalanceRequest) returns (QueryShowUsdcBalanceResponse) {
+    option (google.api.http).get = "/fractal/balancecheck/show_usdc_balance/{id}";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
 }
+
+message QueryShowUsdcBalanceRequest {
+  uint64 id = 1;
+}
+
+message QueryShowUsdcBalanceResponse {
+  Usdcbalance usdcbalance = 1;
+}
+
