@@ -31,17 +31,17 @@ func (k msgServer) SettleExchange(goCtx context.Context, msg *types.MsgSettleExc
 	startAmountCoins := sdk.NewCoins(sdk.NewCoin(exchange.Startunit, startAmount))
 
 	// Send coins from entity to provider
-	err := k.bankKeeper.SendCoins(ctx, lender, borrower, startAmountCoins)
+	err := k.bankKeeper.SendCoins(ctx, borrower, lender, startAmountCoins)
 	if err != nil {
 		return nil, sdkerrors.Wrap(err, "failed to send coins from entity account to provider account")
 	}
 
 	// Send coins from provider to entity
 	finalAmountCoins := sdk.NewCoins(sdk.NewCoin(exchange.Finalunit, amount.AmountOf(exchange.Finalunit)))
-	err = k.bankKeeper.SendCoins(ctx, borrower, lender, finalAmountCoins)
+	err = k.bankKeeper.SendCoins(ctx, lender, borrower, finalAmountCoins)
 	if err != nil {
 		// Roll back startAmount transaction if sending finalAmount fails
-		err = k.bankKeeper.SendCoins(ctx, lender, borrower, startAmountCoins)
+		err = k.bankKeeper.SendCoins(ctx, borrower, lender, startAmountCoins)
 		if err != nil {
 			return nil, sdkerrors.Wrap(err, "failed to roll back startAmount transaction")
 		}
