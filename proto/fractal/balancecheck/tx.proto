@@ -1,7 +1,21 @@
 syntax = "proto3";
+
 package fractal.balancecheck;
 
 option go_package = "fractal/x/balancecheck/types";
 
 // Msg defines the Msg service.
-service Msg {}
+service Msg {
+  rpc UsdcBalanceCheck (MsgUsdcBalanceCheck) returns (MsgUsdcBalanceCheckResponse);
+}
+message MsgUsdcBalanceCheck {
+  string creator      = 1;
+  string chain        = 2;
+  string chainaddress = 3;
+  string amount       = 4;
+}
+
+message MsgUsdcBalanceCheckResponse {
+  uint64 id = 1;
+}
+
