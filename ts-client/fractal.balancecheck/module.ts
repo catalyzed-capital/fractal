@@ -9,6 +9,7 @@ import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
 
 import { Params as typeParams} from "./types"
+import { Usdcbalance as typeUsdcbalance} from "./types"
 
 export {  };
 
@@ -67,6 +68,7 @@ class SDKModule {
 		this.updateTX(client);
 		this.structure =  {
 						Params: getStructure(typeParams.fromPartial({})),
+						Usdcbalance: getStructure(typeUsdcbalance.fromPartial({})),
 						
 		};
 		client.on('signer-changed',(signer) => {			
