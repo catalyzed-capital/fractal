@@ -1,0 +1,12 @@
+syntax = "proto3";
+package fractal.balancecheck;
+
+import "gogoproto/gogo.proto";
+import "fractal/balancecheck/params.proto";
+
+option go_package = "fractal/x/balancecheck/types";
+
+// GenesisState defines the balancecheck module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}

@@ -103,6 +103,9 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
+	balancecheckmodule "fractal/x/balancecheck"
+	balancecheckmodulekeeper "fractal/x/balancecheck/keeper"
+	balancecheckmoduletypes "fractal/x/balancecheck/types"
 	fractalmodule "fractal/x/fractal"
 	fractalmodulekeeper "fractal/x/fractal/keeper"
 	fractalmoduletypes "fractal/x/fractal/types"
@@ -165,20 +168,22 @@ var (
 		ica.AppModuleBasic{},
 		vesting.AppModuleBasic{},
 		fractalmodule.AppModuleBasic{},
+		balancecheckmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
 	// module account permissions
 	maccPerms = map[string][]string{
-		authtypes.FeeCollectorName:     nil,
-		distrtypes.ModuleName:          nil,
-		icatypes.ModuleName:            nil,
-		minttypes.ModuleName:           {authtypes.Minter},
-		stakingtypes.BondedPoolName:    {authtypes.Burner, authtypes.Staking},
-		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
-		govtypes.ModuleName:            {authtypes.Burner},
-		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
-		fractalmoduletypes.ModuleName:  {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		authtypes.FeeCollectorName:         nil,
+		distrtypes.ModuleName:              nil,
+		icatypes.ModuleName:                nil,
+		minttypes.ModuleName:               {authtypes.Minter},
+		stakingtypes.BondedPoolName:        {authtypes.Burner, authtypes.Staking},
+		stakingtypes.NotBondedPoolName:     {authtypes.Burner, authtypes.Staking},
+		govtypes.ModuleName:                {authtypes.Burner},
+		ibctransfertypes.ModuleName:        {authtypes.Minter, authtypes.Burner},
+		fractalmoduletypes.ModuleName:      {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		balancecheckmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -241,6 +246,8 @@ type App struct {
 
 	ScopedFractalKeeper capabilitykeeper.ScopedKeeper
 	FractalKeeper       fractalmodulekeeper.Keeper
+
+	BalancecheckKeeper balancecheckmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -286,6 +293,7 @@ func New(
 		ibctransfertypes.StoreKey, icahosttypes.StoreKey, capabilitytypes.StoreKey, group.StoreKey,
 		icacontrollertypes.StoreKey,
 		fractalmoduletypes.StoreKey,
+		balancecheckmoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -512,6 +520,18 @@ func New(
 	fractalModule := fractalmodule.NewAppModule(appCodec, app.FractalKeeper, app.AccountKeeper, app.BankKeeper)
 
 	fractalIBCModule := fractalmodule.NewIBCModule(app.FractalKeeper)
+
+	app.BalancecheckKeeper = *balancecheckmodulekeeper.NewKeeper(
+		appCodec,
+		keys[balancecheckmoduletypes.StoreKey],
+		keys[balancecheckmoduletypes.MemStoreKey],
+		app.GetSubspace(balancecheckmoduletypes.ModuleName),
+
+		app.BankKeeper,
+		app.MintKeeper,
+	)
+	balancecheckModule := balancecheckmodule.NewAppModule(appCodec, app.BalancecheckKeeper, app.AccountKeeper, app.BankKeeper)
+
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	/**** IBC Routing ****/
@@ -579,6 +599,7 @@ func New(
 		transferModule,
 		icaModule,
 		fractalModule,
+		balancecheckModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -609,6 +630,7 @@ func New(
 		paramstypes.ModuleName,
 		vestingtypes.ModuleName,
 		fractalmoduletypes.ModuleName,
+		balancecheckmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -634,6 +656,7 @@ func New(
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
 		fractalmoduletypes.ModuleName,
+		balancecheckmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
@@ -664,6 +687,7 @@ func New(
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
 		fractalmoduletypes.ModuleName,
+		balancecheckmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -694,6 +718,7 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
 		fractalModule,
+		balancecheckModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 	app.sm.RegisterStoreDecoders()
@@ -899,6 +924,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(icacontrollertypes.SubModuleName)
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
 	paramsKeeper.Subspace(fractalmoduletypes.ModuleName)
+	paramsKeeper.Subspace(balancecheckmoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper
