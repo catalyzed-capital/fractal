@@ -7,6 +7,7 @@ import (
 	"fractal/testutil/nullify"
 	"fractal/x/fractal/keeper"
 	"fractal/x/fractal/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 )
