@@ -2,7 +2,7 @@
   <section>
     <header class="flex items-center justify-between">
       <h2 class="text-3xl text-black font-semibold p-0 m-0 mb-2.5 flex-1">
-        Transactions
+        Exchange Log
       </h2>
     </header>
     <table class="table-auto w-full" v-if="txs.length > 0">
@@ -59,7 +59,7 @@
       v-else
       class="text-left text-black opacity-75 text-md font-normal py-8"
     >
-      Transaction history is empty
+      Exchange history is empty
     </div>
     <div
       v-if="hasMoreReceived || hasMoreSent"

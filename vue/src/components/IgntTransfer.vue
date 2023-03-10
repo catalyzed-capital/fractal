@@ -12,7 +12,7 @@
     :inactiveLinkClasses="['text-gray-400']"
     :activeLinkClasses="['text-black']"
   >
-    <div class="" tabTitle="Send">
+    <div class="" tabTitle="Exchange">
       <IgntSend v-if="address" />
     </div>
     <div class="" tabTitle="Receive">

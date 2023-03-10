@@ -2,7 +2,7 @@
   <section>
     <header class="flex items-center justify-between">
       <h2 class="text-3xl text-black font-semibold p-0 m-0 mb-2.5 flex-1">
-        Assets
+        Balances
       </h2>
       <div
         v-if="balances.assets.length"

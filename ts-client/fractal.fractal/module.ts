@@ -7,24 +7,18 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
-import { MsgRequestExchange } from "./types/fractal/fractal/tx";
 import { MsgCancelExchange } from "./types/fractal/fractal/tx";
-import { MsgSettleExchange } from "./types/fractal/fractal/tx";
-import { MsgApproveExchange } from "./types/fractal/fractal/tx";
+import { MsgRequestExchange } from "./types/fractal/fractal/tx";
 import { MsgSwapExchange } from "./types/fractal/fractal/tx";
+import { MsgApproveExchange } from "./types/fractal/fractal/tx";
+import { MsgSettleExchange } from "./types/fractal/fractal/tx";
 
 import { Exchange as typeExchange} from "./types"
 import { FractalPacketData as typeFractalPacketData} from "./types"
 import { NoData as typeNoData} from "./types"
 import { Params as typeParams} from "./types"
 
-export { MsgRequestExchange, MsgCancelExchange, MsgSettleExchange, MsgApproveExchange, MsgSwapExchange };
-
-type sendMsgRequestExchangeParams = {
-  value: MsgRequestExchange,
-  fee?: StdFee,
-  memo?: string
-};
+export { MsgCancelExchange, MsgRequestExchange, MsgSwapExchange, MsgApproveExchange, MsgSettleExchange };
 
 type sendMsgCancelExchangeParams = {
   value: MsgCancelExchange,
@@ -32,14 +26,8 @@ type sendMsgCancelExchangeParams = {
   memo?: string
 };
 
-type sendMsgSettleExchangeParams = {
-  value: MsgSettleExchange,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgApproveExchangeParams = {
-  value: MsgApproveExchange,
+type sendMsgRequestExchangeParams = {
+  value: MsgRequestExchange,
   fee?: StdFee,
   memo?: string
 };
@@ -50,25 +38,37 @@ type sendMsgSwapExchangeParams = {
   memo?: string
 };
 
-
-type msgRequestExchangeParams = {
-  value: MsgRequestExchange,
+type sendMsgApproveExchangeParams = {
+  value: MsgApproveExchange,
+  fee?: StdFee,
+  memo?: string
 };
+
+type sendMsgSettleExchangeParams = {
+  value: MsgSettleExchange,
+  fee?: StdFee,
+  memo?: string
+};
+
 
 type msgCancelExchangeParams = {
   value: MsgCancelExchange,
 };
 
-type msgSettleExchangeParams = {
-  value: MsgSettleExchange,
+type msgRequestExchangeParams = {
+  value: MsgRequestExchange,
+};
+
+type msgSwapExchangeParams = {
+  value: MsgSwapExchange,
 };
 
 type msgApproveExchangeParams = {
   value: MsgApproveExchange,
 };
 
-type msgSwapExchangeParams = {
-  value: MsgSwapExchange,
+type msgSettleExchangeParams = {
+  value: MsgSettleExchange,
 };
 
 
@@ -101,20 +101,6 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 
   return {
 		
-		async sendMsgRequestExchange({ value, fee, memo }: sendMsgRequestExchangeParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgRequestExchange: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgRequestExchange({ value: MsgRequestExchange.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgRequestExchange: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
 		async sendMsgCancelExchange({ value, fee, memo }: sendMsgCancelExchangeParams): Promise<DeliverTxResponse> {
 			if (!signer) {
 					throw new Error('TxClient:sendMsgCancelExchange: Unable to sign Tx. Signer is not present.')
@@ -129,31 +115,17 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgSettleExchange({ value, fee, memo }: sendMsgSettleExchangeParams): Promise<DeliverTxResponse> {
+		async sendMsgRequestExchange({ value, fee, memo }: sendMsgRequestExchangeParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgSettleExchange: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgRequestExchange: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSettleExchange({ value: MsgSettleExchange.fromPartial(value) })
+				let msg = this.msgRequestExchange({ value: MsgRequestExchange.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSettleExchange: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgApproveExchange({ value, fee, memo }: sendMsgApproveExchangeParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgApproveExchange: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgApproveExchange({ value: MsgApproveExchange.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgApproveExchange: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgRequestExchange: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -171,14 +143,34 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		
-		msgRequestExchange({ value }: msgRequestExchangeParams): EncodeObject {
-			try {
-				return { typeUrl: "/fractal.fractal.MsgRequestExchange", value: MsgRequestExchange.fromPartial( value ) }  
+		async sendMsgApproveExchange({ value, fee, memo }: sendMsgApproveExchangeParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgApproveExchange: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgApproveExchange({ value: MsgApproveExchange.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgRequestExchange: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgApproveExchange: Could not broadcast Tx: '+ e.message)
 			}
 		},
+		
+		async sendMsgSettleExchange({ value, fee, memo }: sendMsgSettleExchangeParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSettleExchange: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSettleExchange({ value: MsgSettleExchange.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgSettleExchange: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		
 		msgCancelExchange({ value }: msgCancelExchangeParams): EncodeObject {
 			try {
@@ -188,11 +180,19 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgSettleExchange({ value }: msgSettleExchangeParams): EncodeObject {
+		msgRequestExchange({ value }: msgRequestExchangeParams): EncodeObject {
 			try {
-				return { typeUrl: "/fractal.fractal.MsgSettleExchange", value: MsgSettleExchange.fromPartial( value ) }  
+				return { typeUrl: "/fractal.fractal.MsgRequestExchange", value: MsgRequestExchange.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgSettleExchange: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgRequestExchange: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgSwapExchange({ value }: msgSwapExchangeParams): EncodeObject {
+			try {
+				return { typeUrl: "/fractal.fractal.MsgSwapExchange", value: MsgSwapExchange.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgSwapExchange: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -204,11 +204,11 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgSwapExchange({ value }: msgSwapExchangeParams): EncodeObject {
+		msgSettleExchange({ value }: msgSettleExchangeParams): EncodeObject {
 			try {
-				return { typeUrl: "/fractal.fractal.MsgSwapExchange", value: MsgSwapExchange.fromPartial( value ) }  
+				return { typeUrl: "/fractal.fractal.MsgSettleExchange", value: MsgSettleExchange.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgSwapExchange: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgSettleExchange: Could not create message: ' + e.message)
 			}
 		},
 		
