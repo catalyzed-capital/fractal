@@ -36,10 +36,12 @@ message QueryParamsResponse {
 }
 
 message QueryShowUsdcBalanceRequest {
-  uint64 id = 1;
+  uint64 id = 2;
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 message QueryShowUsdcBalanceResponse {
-  Usdcbalance usdcbalance = 1;
+  repeated Usdcbalance usdcbalance = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

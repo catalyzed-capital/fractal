@@ -6,8 +6,11 @@ option go_package = "fractal/x/balancecheck/types";
 message Usdcbalance {
   
   string creator = 1; 
-  string chain = 2; 
-  string chainaddress = 3; 
-  string amount = 4; 
-  uint64 id = 5; 
+  string chain = 2;
+  string unit =3;
+  string chainaddress = 4; 
+  string requiredamount = 5;
+  string availableamount = 6; 
+  string unsettledamount = 7;
+  uint64 id = 8; 
 }

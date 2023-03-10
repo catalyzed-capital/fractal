@@ -23,11 +23,14 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type Usdcbalance struct {
-	Creator      string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Chain        string `protobuf:"bytes,2,opt,name=chain,proto3" json:"chain,omitempty"`
-	Chainaddress string `protobuf:"bytes,3,opt,name=chainaddress,proto3" json:"chainaddress,omitempty"`
-	Amount       string `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
-	Id           uint64 `protobuf:"varint,5,opt,name=id,proto3" json:"id,omitempty"`
+	Creator         string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Chain           string `protobuf:"bytes,2,opt,name=chain,proto3" json:"chain,omitempty"`
+	Unit            string `protobuf:"bytes,3,opt,name=unit,proto3" json:"unit,omitempty"`
+	Chainaddress    string `protobuf:"bytes,4,opt,name=chainaddress,proto3" json:"chainaddress,omitempty"`
+	Requiredamount  string `protobuf:"bytes,5,opt,name=requiredamount,proto3" json:"requiredamount,omitempty"`
+	Availableamount string `protobuf:"bytes,6,opt,name=availableamount,proto3" json:"availableamount,omitempty"`
+	Unsettledamount string `protobuf:"bytes,7,opt,name=unsettledamount,proto3" json:"unsettledamount,omitempty"`
+	Id              uint64 `protobuf:"varint,8,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (m *Usdcbalance) Reset()         { *m = Usdcbalance{} }
@@ -77,6 +80,13 @@ func (m *Usdcbalance) GetChain() string {
 	return ""
 }
 
+func (m *Usdcbalance) GetUnit() string {
+	if m != nil {
+		return m.Unit
+	}
+	return ""
+}
+
 func (m *Usdcbalance) GetChainaddress() string {
 	if m != nil {
 		return m.Chainaddress
@@ -84,9 +94,23 @@ func (m *Usdcbalance) GetChainaddress() string {
 	return ""
 }
 
-func (m *Usdcbalance) GetAmount() string {
+func (m *Usdcbalance) GetRequiredamount() string {
 	if m != nil {
-		return m.Amount
+		return m.Requiredamount
+	}
+	return ""
+}
+
+func (m *Usdcbalance) GetAvailableamount() string {
+	if m != nil {
+		return m.Availableamount
+	}
+	return ""
+}
+
+func (m *Usdcbalance) GetUnsettledamount() string {
+	if m != nil {
+		return m.Unsettledamount
 	}
 	return ""
 }
@@ -107,20 +131,24 @@ func init() {
 }
 
 var fileDescriptor_a2d08459d7a4ce65 = []byte{
-	// 204 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x52, 0x4b, 0x2b, 0x4a, 0x4c,
-	0x2e, 0x49, 0xcc, 0xd1, 0x4f, 0x4a, 0xcc, 0x49, 0xcc, 0x4b, 0x4e, 0x4d, 0xce, 0x48, 0x4d, 0xce,
-	0xd6, 0x2f, 0x2d, 0x4e, 0x49, 0x86, 0x0a, 0xe8, 0x15, 0x14, 0xe5, 0x97, 0xe4, 0x0b, 0x89, 0x40,
-	0xd5, 0xe9, 0x21, 0xab, 0x53, 0xea, 0x64, 0xe4, 0xe2, 0x0e, 0x45, 0xa8, 0x15, 0x92, 0xe0, 0x62,
-	0x4f, 0x2e, 0x4a, 0x4d, 0x2c, 0xc9, 0x2f, 0x92, 0x60, 0x54, 0x60, 0xd4, 0xe0, 0x0c, 0x82, 0x71,
-	0x85, 0x44, 0xb8, 0x58, 0x93, 0x33, 0x12, 0x33, 0xf3, 0x24, 0x98, 0xc0, 0xe2, 0x10, 0x8e, 0x90,
-	0x12, 0x17, 0x0f, 0x98, 0x91, 0x98, 0x92, 0x52, 0x94, 0x5a, 0x5c, 0x2c, 0xc1, 0x0c, 0x96, 0x44,
-	0x11, 0x13, 0x12, 0xe3, 0x62, 0x4b, 0xcc, 0xcd, 0x2f, 0xcd, 0x2b, 0x91, 0x60, 0x01, 0xcb, 0x42,
-	0x79, 0x42, 0x7c, 0x5c, 0x4c, 0x99, 0x29, 0x12, 0xac, 0x0a, 0x8c, 0x1a, 0x2c, 0x41, 0x4c, 0x99,
-	0x29, 0x4e, 0x66, 0x27, 0x1e, 0xc9, 0x31, 0x5e, 0x78, 0x24, 0xc7, 0xf8, 0xe0, 0x91, 0x1c, 0xe3,
-	0x84, 0xc7, 0x72, 0x0c, 0x17, 0x1e, 0xcb, 0x31, 0xdc, 0x78, 0x2c, 0xc7, 0x10, 0x25, 0x03, 0xf3,
-	0x63, 0x05, 0xaa, 0x2f, 0x4b, 0x2a, 0x0b, 0x52, 0x8b, 0x93, 0xd8, 0xc0, 0x1e, 0x34, 0x06, 0x04,
-	0x00, 0x00, 0xff, 0xff, 0xbd, 0x86, 0x1a, 0xa8, 0x0a, 0x01, 0x00, 0x00,
+	// 258 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x90, 0xbd, 0x4e, 0xc3, 0x30,
+	0x14, 0x85, 0xe3, 0x90, 0xb6, 0x60, 0x50, 0x91, 0xac, 0x0e, 0x1e, 0x90, 0x55, 0x75, 0xa8, 0x32,
+	0xb5, 0x03, 0x12, 0x0f, 0xc0, 0x23, 0x54, 0x62, 0x61, 0xbb, 0xb1, 0x2f, 0xaa, 0x85, 0x71, 0x8a,
+	0x7f, 0x10, 0x8c, 0xbc, 0x01, 0x8f, 0xc5, 0xd8, 0x91, 0x11, 0x25, 0x2f, 0x82, 0x70, 0x53, 0x68,
+	0xb3, 0xdd, 0xf3, 0x9d, 0x4f, 0x77, 0x38, 0x74, 0xfe, 0xe0, 0x40, 0x06, 0x30, 0xcb, 0x0a, 0x0c,
+	0x58, 0x89, 0x72, 0x8d, 0xf2, 0x71, 0x19, 0xbd, 0x92, 0x1d, 0x58, 0x6c, 0x5c, 0x1d, 0x6a, 0x36,
+	0xe9, 0xbc, 0xc5, 0xa1, 0x37, 0x7b, 0xcf, 0xe9, 0xf9, 0xdd, 0xbf, 0xcb, 0x38, 0x1d, 0x49, 0x87,
+	0x10, 0x6a, 0xc7, 0xc9, 0x94, 0x94, 0x67, 0xab, 0x7d, 0x64, 0x13, 0x3a, 0x90, 0x6b, 0xd0, 0x96,
+	0xe7, 0x89, 0xef, 0x02, 0x63, 0xb4, 0x88, 0x56, 0x07, 0x7e, 0x92, 0x60, 0xba, 0xd9, 0x8c, 0x5e,
+	0xa4, 0x12, 0x94, 0x72, 0xe8, 0x3d, 0x2f, 0x52, 0x77, 0xc4, 0xd8, 0x9c, 0x8e, 0x1d, 0x3e, 0x47,
+	0xed, 0x50, 0xc1, 0x53, 0x1d, 0x6d, 0xe0, 0x83, 0x64, 0xf5, 0x28, 0x2b, 0xe9, 0x25, 0xbc, 0x80,
+	0x36, 0x50, 0x19, 0xec, 0xc4, 0x61, 0x12, 0xfb, 0xf8, 0xd7, 0x8c, 0xd6, 0x63, 0x08, 0xe6, 0xef,
+	0xe5, 0x68, 0x67, 0xf6, 0x30, 0x1b, 0xd3, 0x5c, 0x2b, 0x7e, 0x3a, 0x25, 0x65, 0xb1, 0xca, 0xb5,
+	0xba, 0xbd, 0xf9, 0x6c, 0x04, 0xd9, 0x36, 0x82, 0x7c, 0x37, 0x82, 0x7c, 0xb4, 0x22, 0xdb, 0xb6,
+	0x22, 0xfb, 0x6a, 0x45, 0x76, 0x7f, 0xb5, 0xdf, 0xf6, 0xf5, 0x78, 0xdd, 0xf0, 0xb6, 0x41, 0x5f,
+	0x0d, 0xd3, 0xb0, 0xd7, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x28, 0x0b, 0x8f, 0xdc, 0x82, 0x01,
+	0x00, 0x00,
 }
 
 func (m *Usdcbalance) Marshal() (dAtA []byte, err error) {
@@ -146,19 +174,40 @@ func (m *Usdcbalance) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if m.Id != 0 {
 		i = encodeVarintUsdcbalance(dAtA, i, uint64(m.Id))
 		i--
-		dAtA[i] = 0x28
+		dAtA[i] = 0x40
 	}
-	if len(m.Amount) > 0 {
-		i -= len(m.Amount)
-		copy(dAtA[i:], m.Amount)
-		i = encodeVarintUsdcbalance(dAtA, i, uint64(len(m.Amount)))
+	if len(m.Unsettledamount) > 0 {
+		i -= len(m.Unsettledamount)
+		copy(dAtA[i:], m.Unsettledamount)
+		i = encodeVarintUsdcbalance(dAtA, i, uint64(len(m.Unsettledamount)))
 		i--
-		dAtA[i] = 0x22
+		dAtA[i] = 0x3a
+	}
+	if len(m.Availableamount) > 0 {
+		i -= len(m.Availableamount)
+		copy(dAtA[i:], m.Availableamount)
+		i = encodeVarintUsdcbalance(dAtA, i, uint64(len(m.Availableamount)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.Requiredamount) > 0 {
+		i -= len(m.Requiredamount)
+		copy(dAtA[i:], m.Requiredamount)
+		i = encodeVarintUsdcbalance(dAtA, i, uint64(len(m.Requiredamount)))
+		i--
+		dAtA[i] = 0x2a
 	}
 	if len(m.Chainaddress) > 0 {
 		i -= len(m.Chainaddress)
 		copy(dAtA[i:], m.Chainaddress)
 		i = encodeVarintUsdcbalance(dAtA, i, uint64(len(m.Chainaddress)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Unit) > 0 {
+		i -= len(m.Unit)
+		copy(dAtA[i:], m.Unit)
+		i = encodeVarintUsdcbalance(dAtA, i, uint64(len(m.Unit)))
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -204,11 +253,23 @@ func (m *Usdcbalance) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovUsdcbalance(uint64(l))
 	}
+	l = len(m.Unit)
+	if l > 0 {
+		n += 1 + l + sovUsdcbalance(uint64(l))
+	}
 	l = len(m.Chainaddress)
 	if l > 0 {
 		n += 1 + l + sovUsdcbalance(uint64(l))
 	}
-	l = len(m.Amount)
+	l = len(m.Requiredamount)
+	if l > 0 {
+		n += 1 + l + sovUsdcbalance(uint64(l))
+	}
+	l = len(m.Availableamount)
+	if l > 0 {
+		n += 1 + l + sovUsdcbalance(uint64(l))
+	}
+	l = len(m.Unsettledamount)
 	if l > 0 {
 		n += 1 + l + sovUsdcbalance(uint64(l))
 	}
@@ -319,6 +380,38 @@ func (m *Usdcbalance) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Unit", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowUsdcbalance
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthUsdcbalance
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthUsdcbalance
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Unit = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Chainaddress", wireType)
 			}
 			var stringLen uint64
@@ -349,9 +442,9 @@ func (m *Usdcbalance) Unmarshal(dAtA []byte) error {
 			}
 			m.Chainaddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
+		case 5:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Requiredamount", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -379,9 +472,73 @@ func (m *Usdcbalance) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Amount = string(dAtA[iNdEx:postIndex])
+			m.Requiredamount = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 5:
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Availableamount", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowUsdcbalance
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthUsdcbalance
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthUsdcbalance
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Availableamount = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Unsettledamount", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowUsdcbalance
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthUsdcbalance
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthUsdcbalance
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Unsettledamount = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 8:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
 			}
